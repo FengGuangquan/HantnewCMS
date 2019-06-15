@@ -1,0 +1,110 @@
+﻿
+@model HantnewCMS.Models.LoginRecordViewModel
+@{
+    ViewBag.Title = "登陆日志";
+
+}
+
+@section Styles{
+    @Styles.Render("~/Content/UserTable/jquery.datatables.min.css")
+    @Styles.Render("~/Content/UserTable/buttons.dataTables.min.css")
+    @Styles.Render("~/Content/LoginRecord/style.css")
+}
+
+
+<div class="all">
+    <table id="example" class="display" role="grid" aria-describedby="example_info">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>用户ID</th>
+                <th>登陆IP</th>
+                <th>登陆时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LoginRecords)
+            {
+                <tr>
+                    <td><input type="checkbox" data-id="item.ID"></td>
+                    <td>@Html.DisplayFor(model => item.ID)</td>
+                    <td>@Html.DisplayFor(model => item.UserID)</td>
+                    <td>@Html.DisplayFor(model => item.UserIP)</td>
+                    <td>@Html.DisplayFor(model => item.LoginTime)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="page1div">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("LoginRecord", new { page = x }))
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/UserTable/jquery.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jquery.datatables.min.js")
+    @Scripts.Render("~/Scripts/UserTable/dataTables.buttons.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jszip.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.html5.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.flash.min.js")
+    @Scripts.Render("~/Scripts/UserTable/pdfmake.min.js")
+    @Scripts.Render("~/Scripts/UserTable/vfs_fonts.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.print.min.js")
+
+    <script src="~/Scripts/morejs.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                language: {
+                    emptyTable: '没有数据',
+                    loadingRecords: '加载中...',
+                    processing: '查询中...',
+                    search: '检索:',
+                    lengthMenu: '',
+                    zeroRecords: '没有数据',
+                    paginate: {
+                        'first': '',
+                        'last': '',
+                        'next': '',
+                        'previous': ''
+                    },
+                    info: '',
+                    infoEmpty: '',
+                    infoFiltered: '',
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'print',
+                    }
+                ]
+            });
+
+            $(".buttons-copy").text('复制');
+            $(".buttons-excel").text('导出到excel');
+            $(".buttons-pdf").text('导出到pdf');
+            $(".buttons-csv").text('导出到csv');
+            $(".buttons-print").text('打印');
+
+        });
+    </script>
+}

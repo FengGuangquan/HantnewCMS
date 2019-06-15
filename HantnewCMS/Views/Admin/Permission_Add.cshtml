@@ -1,0 +1,101 @@
+﻿@using HantnewCMS.Models
+@{
+    ViewBag.Title = "Permission_Add";
+}
+
+@section Styles {
+    <link href="~/Content/pintsize.min.css" rel="stylesheet" />
+    <link href="~/Content/nice-select.css" rel="stylesheet" />
+    <link href="~/Content/PermissionSet/style.css" rel="stylesheet" />
+}
+
+<form method="post">
+    <div class="tianjia">
+        <div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色</label>
+                <div class="layui-input-block">
+                    <select class="wide select" name="rolelist">
+                        @foreach (Role role in (List<Role>)ViewData["RoleList"])
+                        {
+                            <option value="@role.ID">@role.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Controller</label>
+                <div class="layui-input-block">
+                    <input type="text" name="controller" id="controller" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Action</label>
+                <div class="layui-input-block">
+                    <input type="text" name="action" id="action" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="添加" class="layui-btn layui-btn-normal add" name="action_name" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @*@Scripts.Render("~/bundles/layuijs")*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.nice-select.min.js"></script>
+    <script src="~/Scripts/fastclick.js"></script>
+    <script src="~/Scripts/morejs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select:not(.ignore)').niceSelect();
+            FastClick.attach(document.body);
+        });
+    </script>
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+            //创建一个编辑器
+            var editIndex = layedit.build('LAY_demo_editor');
+
+        });
+    </script>
+    <script>
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+
+            //监听折叠
+            element.on('collapse(test)', function (data) {
+                layer.msg('展开状态：' + data.show);
+            });
+        });
+    </script>
+    <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //常规用法
+            laydate.render({
+                elem: '#choosedate'
+            });
+        });
+    </script>
+}
+

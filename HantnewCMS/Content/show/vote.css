@@ -1,0 +1,97 @@
+﻿body {
+    /*margin: 0px;*/
+    /*padding: 0px;*/
+    /*background-image: url('../../imgs/show_background.jpg');*/
+    /*background-position: center center;*/
+    /*background-size: cover;*/
+    /*background-size: 100% 100%;*/
+    /*background-repeat: no-repeat;*/
+    /*width: 100%;
+    height: 100%;*/
+    background: radial-gradient(circle, #F7C9C9, #91A8D1);
+}
+
+.headerdiv {
+    height: 2px;
+    width: 100%;
+    background: #31833E;
+}
+
+.carddiv {
+    padding-top: 30px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 80px;
+}
+
+.index-card {
+    height: 600px;
+    overflow-y: scroll;
+}
+
+.votediv {
+    border: 1px solid #dadbdd;
+}
+
+.fbtp {
+    float: right;
+    margin-top: 6px;
+}
+
+.mytp {
+    float: right;
+    margin-top: 6px;
+    margin-right: 10px
+}
+
+.tptable {
+    width: 100%;
+}
+
+table tr {
+    border-bottom: 1px solid #dadbdd;
+}
+
+table tr th {
+    height: 30px;
+    line-height: 30px;
+}
+
+table tr td {
+    height: 40px;
+    line-height: 40px;
+}
+
+table tr td a {
+    text-decoration: none;
+    color: #0094ff;
+}
+
+table tr td a:hover {
+    text-decoration: none;
+    color: #238E23;
+}
+
+table tr:hover {
+    background: #F8F8FF;
+}
+
+.topth1 {
+    width: 40%;
+    text-align: left;
+}
+
+.topth2 {
+    width: 10%;
+    text-align: left;
+}
+
+.topth3 {
+    width: 60%;
+    text-align: left;
+}
+
+.topth4 {
+    width: 20%;
+    text-align: left;
+}

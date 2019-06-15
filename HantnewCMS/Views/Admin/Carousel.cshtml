@@ -1,0 +1,39 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@using HantnewCMS.Models
+@{
+    ViewBag.Title = "Carousel";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/Content/bootstrapbuttons.css">
+    <link href="~/Content/Carousel/style.css" rel="stylesheet" />
+}
+
+
+<form method="post" enctype="multipart/form-data">
+    <div class="all">
+        <div class="addcarouselinput">
+            <div class="input1"><input type="file" name="addcarouselinput" accept="image/jpeg,image/jpg,image/png"/></div>
+            <div class="input2"><input type="submit" name="action" value="确认添加" class="button button-pill button-primary" /></div>
+            <span class="span1"><strong>&nbsp;&nbsp;（建议图片高度560px,大小不超2M）</strong></span>
+        </div>
+        @foreach (DataRow item in ViewBag.Data.Rows)
+        {
+            <div class="single-div">
+                <div class="carouselimg-leftdiv">
+                    <img src="@item[1]" class="carouselimg" width="150" height="45"/>
+                </div>
+                <div class="carouselimg-rightdiv">
+                    <a href="javascript:;" onclick="if(window.confirm('确定要删除吗？')) window.location.href ='@Url.Action("Carousel_Remove", "Admin", new { id = @item[0] })'">删除</a>
+                </div>
+            </div>
+        }
+    </div>
+</form>
+
+
+@section Scripts {
+    @*<script src="~/layui/layui.js"></script>*@
+    <script src="~/Scripts/morejs.js"></script>
+}

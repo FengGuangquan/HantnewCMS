@@ -1,0 +1,198 @@
+﻿@model HantnewCMS.Models.UserViewModel
+@*@using System.Data*@
+@{
+    //Layout = null;
+    ViewBag.Title = "用户列表";
+
+}
+
+@section Styles{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/UserTable/jquery.datatables.min.css")
+    @Styles.Render("~/Content/UserTable/buttons.dataTables.min.css")
+    @Styles.Render("~/Content/UserTable/style.css")
+    <link href="~/Content/reveal.css" rel="stylesheet" />
+}
+
+
+<div class="all">
+    <form method="post">
+        <table id="example" class="display" role="grid" aria-describedby="example_info">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>真实名字</th>
+                    <th>角色</th>
+                    <th>手机号</th>
+                    <th>邮箱</th>
+                    <th>生日</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" data-id="@item.ID">
+                        </td>
+                        <td>@Html.DisplayFor(model => item.ID)</td>
+                        <td>@Html.DisplayFor(model => item.UserName)</td>
+                        <td>@Html.DisplayFor(model => item.RealName)</td>
+                        <td>@Html.DisplayFor(model => item.Role)</td>
+                        <td>@Html.DisplayFor(model => item.Phone)</td>
+                        <td>@Html.DisplayFor(model => item.Email)</td>
+                        <td>@Html.DisplayFor(model => item.Birthday)</td>
+                        <td>@Html.DisplayFor(model => item.IsValid)</td>
+                        <td>
+                            @*@Html.ActionLink("查看", "UserTable_Detail", new { id = item.ID })*@
+                            @Html.ActionLink("编辑", "UserTable_Edit", new { id = @item.ID })
+                            <a href="javascript:;" onclick="if(window.confirm('确定要删除吗？')) window.location.href ='@Url.Action("UserTable_Remove", "Admin", new { id = item.ID })'">删除</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+
+        <div class="page1div">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("UserTable", new { page = x }))
+        </div>
+</div>
+
+
+    @*编辑Modal*@
+    <div id="myModal" class="reveal-modal">
+        <h1>编辑</h1>
+        <div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">ID</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:90px;">真实名字</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">生日</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <input type="text" name="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="layui-btn layui-btn-normal change">&nbsp;&nbsp;修 改&nbsp;&nbsp;</button>
+        </div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+
+
+    @section Scripts {
+        <script src="http://www.jq22.com/jquery/jquery-1.6.2.js"></script>
+        <script src="~/Scripts/jquery.reveal.js"></script>
+        @Scripts.Render("~/bundles/layuijs")
+        @Scripts.Render("~/Scripts/UserTable/jquery.min.js")
+        @Scripts.Render("~/Scripts/UserTable/jquery.datatables.min.js")
+        @Scripts.Render("~/Scripts/UserTable/dataTables.buttons.min.js")
+        @Scripts.Render("~/Scripts/UserTable/jszip.min.js")
+        @Scripts.Render("~/Scripts/UserTable/buttons.html5.min.js")
+        @Scripts.Render("~/Scripts/UserTable/buttons.flash.min.js")
+        @Scripts.Render("~/Scripts/UserTable/pdfmake.min.js")
+        @Scripts.Render("~/Scripts/UserTable/vfs_fonts.js")
+        @Scripts.Render("~/Scripts/UserTable/buttons.print.min.js")
+        <script src="~/Scripts/morejs.js"></script>
+        <script src="http://www.jq22.com/js/jq.js"></script>
+
+
+        <script>
+            $(document).ready(function () {
+
+                $('#example').DataTable({
+                    dom: 'Bfrtip',
+                    language: {
+                        emptyTable: '没有数据',
+                        loadingRecords: '加载中...',
+                        processing: '查询中...',
+                        search: '检索:',
+                        lengthMenu: '',
+                        zeroRecords: '没有数据',
+                        paginate: {
+                            'first': '',
+                            'last': '',
+                            'next': '',
+                            'previous': ''
+                        },
+                        info: '',
+                        infoEmpty: '',
+                        infoFiltered: '',
+                    },
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Data export'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data export'
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data export'
+                        },
+                        {
+                            extend: 'print',
+                        }
+                    ]
+                });
+
+                $(".buttons-copy").text('复制');
+                $(".buttons-excel").text('导出到excel');
+                $(".buttons-pdf").text('导出到pdf');
+                $(".buttons-csv").text('导出到csv');
+                $(".buttons-print").text('打印');
+
+            });
+        </script>
+    }
+
+

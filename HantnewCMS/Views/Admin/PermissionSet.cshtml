@@ -1,0 +1,177 @@
+﻿@using System.Data
+@model HantnewCMS.Models.ControllerActionRoleViewModel
+@{
+    ViewBag.Title = "角色授权";
+}
+
+@section Styles{
+    @Styles.Render("~/Content/UserTable/jquery.datatables.min.css")
+    @Styles.Render("~/Content/UserTable/buttons.dataTables.min.css")
+    @Styles.Render("~/Content/PermissionSet/style.css")
+    <link rel="stylesheet" href="~/Content/bootstrapbuttons.css">
+}
+
+
+<div class="all">
+    <div class="addpermissiondiv">
+        @Html.ActionLink("添加角色权限", "Permission_Add", "Admin", new { @class = "button button-pill button-primary addpermissionbutton", @id = "addpermissionbutton" })
+        @*<a href="Permission_Add" class="button button-pill button-primary addpermissionbutton" id="addpermissionbutton">添加角色权限</a>*@
+    </div>
+    <form method="post" class="layui-form">
+        <table id="example" class="display" role="grid" aria-describedby="example_info">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>角色</th>
+                    <th>Controller</th>
+                    <th>Action</th>
+                    <th>是否授权</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                @foreach (var items in Model.ControllerActionRoles)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(model => items.ID)</td>
+                        <td>@Html.DisplayFor(model => items.RoleName)</td>
+                        <td>@Html.DisplayFor(model => items.Controller)</td>
+                        <td>@Html.DisplayFor(model => items.Action)</td>
+                        <td>
+                            <input type="checkbox" @if (items.IsAllowed == "True") { @Html.Raw("checked= 'checked'")} value="@items.ID" name="open" lay-skin="switch" lay-filter="switchTest">
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+        <div class="page1div">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("PermissionSet", new { page = x }))
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    <script src="~/layui/layui.js"></script>
+    @Scripts.Render("~/Scripts/UserTable/jquery.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jquery.datatables.min.js")
+    @Scripts.Render("~/Scripts/UserTable/dataTables.buttons.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jszip.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.html5.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.flash.min.js")
+    @Scripts.Render("~/Scripts/UserTable/pdfmake.min.js")
+    @Scripts.Render("~/Scripts/UserTable/vfs_fonts.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.print.min.js")
+    <script src="~/Scripts/jquery.nice-select.min.js"></script>
+    <script src="~/Scripts/fastclick.js"></script>
+    <script src="~/Scripts/morejs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select:not(.ignore)').niceSelect();
+            FastClick.attach(document.body);
+        });
+    </script>
+
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+            //创建一个编辑器
+            var editIndex = layedit.build('LAY_demo_editor');
+
+            //监听指定开关
+            form.on('switch(switchTest)', function (data) {
+                var that = this;
+                $.ajax({
+                    url: '@Url.Action("SetPermission", "Admin")',
+                    data: {
+                        id: $(this).val(),
+                        isAllowed: this.checked ? 'True' : 'False'
+                    },
+                    dataType: 'text',
+                    type: 'GET',
+                    success: function (ret) {
+                        if (ret == "1")
+                            ;
+                            //alert("successful");
+                        else {
+                            //alert("failed");
+                            $(that).prop("checked", !that.checked)
+                            $(that).attr("checked", !that.checked)
+                        }
+                    }
+
+                })
+                layer.msg('您选择了：' + (this.checked ? 'True' : 'False'), {
+                    offset: '10px'
+                });
+                layer.tips('已修改权限开关', data.othis)
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                language: {
+                    emptyTable: '没有数据',
+                    loadingRecords: '加载中...',
+                    processing: '查询中...',
+                    search: '检索:',
+                    lengthMenu: '',
+                    zeroRecords: '没有数据',
+                    paginate: {
+                        'first': '',
+                        'last': '',
+                        'next': '',
+                        'previous': ''
+                    },
+                    info: '',
+                    infoEmpty: '',
+                    infoFiltered: '',
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'print',
+                    }
+                ]
+            });
+
+            $(".buttons-copy").text('复制');
+            $(".buttons-excel").text('导出到excel');
+            $(".buttons-pdf").text('导出到pdf');
+            $(".buttons-csv").text('导出到csv');
+            $(".buttons-print").text('打印');
+
+        });
+    </script>
+}

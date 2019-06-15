@@ -1,0 +1,213 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    ViewBag.Title = "首页";
+}
+
+@section Styles{
+    @Styles.Render("../common/layui/css/layui.css")
+    @Styles.Render("../common/bootstrap/css/bootstrap.css")
+    @Styles.Render("../common/global.css")
+    @Styles.Render("../css/main.css")
+}
+
+<section class="larry-wrapper">
+    <!-- overview -->
+    <div class="row state-overview">
+        <div class="col-lg-3 col-sm-6 layui-anim layui-anim-up">
+            <section class="panel">
+                <div class="symbol userblue layui-anim">
+                    <i class="iconpx-users"></i>
+                </div>
+                <div class="value">
+                    <a href="@Url.Action("UserTable")">
+                        <h1 id="count1">@ViewBag.UserCount</h1>
+                    </a>
+                    <p>用户总量</p>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-3 col-sm-6 layui-anim layui-anim-up">
+            <section class="panel">
+                <div class="symbol commred layui-anim">
+                    @*<i class="iconpx-user-add"></i>*@
+                    <img src="../imgs/task-big.png" alt="Alternate Text" />
+                </div>
+                <div class="value">
+                    <a href="@Url.Action("Task")">
+                        <h1 id="count2">@ViewBag.TaskCount</h1>
+                    </a>
+                    <p>项目总数</p>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-3 col-sm-6 layui-anim layui-anim-up">
+            <section class="panel">
+                <div class="symbol rsswet layui-anim">
+                    <i class="iconpx-check-circle"></i>
+                </div>
+                <div class="value">
+                    <a href="@Url.Action("Task")">
+                        <h1 id="count4">@ViewBag.FinishedTaskCount</h1>
+                    </a>
+                    <p>未完成项目</p>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-3 col-sm-6 layui-anim layui-anim-up">
+            <section class="panel">
+                <div class="symbol articlegreen layui-anim">
+                    <i class="iconpx-file-word-o"></i>
+                </div>
+                <div class="value">
+                    <a href="@Url.Action("Article")">
+                        <h1 id="count3">@ViewBag.ArticleCount</h1>
+                    </a>
+                    <p>文章总数</p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- overview end -->
+    <div class="row">
+        <div class="col-lg-6">
+            <section class="panel">
+                <header class="panel-heading bm0">
+                    <span class='span-title'>系统概览</span>
+                    <span class="tools pull-right"><a href="javascript:;" class="iconpx-chevron-down"></a></span>
+                </header>
+                <div class="panel-body">
+                    <table class="table table-hover personal-task">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>版本信息：</strong>
+                                </td>
+                                <td>
+                                    版本名称：<a href="http://www.hantnew.com" target="_blank">HantnewCMS</a> 版本号: V1.0.0
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>开发作者：</strong>
+                                </td>
+                                <td>
+                                    Hantnew
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>网站域名</strong>：
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>网站目录：</strong>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>服务器IP：</strong>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>服务器环境：</strong>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>数据库版本：</strong>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>最大上传限制：</strong>
+                                </td>
+                                <td>
+                                    2M
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-6">
+            <!-- 最新文章 -->
+            <section class="panel">
+                <header class="panel-heading bm0">
+                    <span class='span-title'>最新文章</span>
+                    <span class="badge" style="background-color:#FF3333;"> new </span>
+                    <span class="tools pull-right"><a href="javascript:;" class="iconpx-chevron-down"></a></span>
+                </header>
+                <div class="panel-body">
+                    <table class="table table-hover personal-task">
+                        <tbody>
+                            @foreach (DataRow item in ViewBag.Data.Rows)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("Article_Detail",new { id = item[0]})">@item[1]</a>
+                                    </td>
+                                    <td class="col-md-5">@item[4]</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 关于我们 -->
+            @*<section class="panel">
+                    <header class="panel-heading bm0">
+                        <span class='span-title'>关于我们</span>
+                        <span class="tools pull-right"><a href="javascript:;" class="iconpx-chevron-down"></a></span>
+                    </header>
+                    <div class="panel-body">
+                        <div class="aboutusp">
+                            <p>东莞市悍牛信息科有限公司是一家有活力的IT支持与服务公司，一直专注于互联网软件研发。团队成员曾服务于国内优秀软件及互联网公司，业务类型涉及Web应用开发、手机App开发、微信公众号和小程序开发等。质量和信誉是我们存在的基石。我们注重客户提出的每个要求，充分考虑每一个细节，积极地做好服务，努力开拓更好的视野。我们永远不会因为我们曾经的成绩而满足。在所有新老客户面前，我们都很乐意虚心、朴实的跟您接触，更深入地了解您的企业，以便为您提供更优质的服务！</p>
+                            <p>我们的服务宗旨:持续为客户创造最优质的服务。</p>
+                            <p>感谢您的选择，每一次倾心的合作都是一个全新的体会和挑战，让我们从沟通开始这次愉快的合作吧。</p>
+                        </div>
+                    </div>
+                </section>*@
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("../js/main.js")
+
+    <script src="~/Scripts/morejs.js"></script>
+}
+
+@*@Scripts.Render("../common/layui/layui.js")*@
+@*<script type="text/javascript">
+        layui.use(['jquery', 'layer', 'element'], function () {
+            window.jQuery = window.$ = layui.jquery;
+            window.layer = layui.layer;
+            window.element = layui.element();
+
+            $('.panel .tools .iconpx-chevron-down').click(function () {
+                var el = $(this).parents(".panel").children(".panel-body");
+                if ($(this).hasClass("iconpx-chevron-down")) {
+                    $(this).removeClass("iconpx-chevron-down").addClass("iconpx-chevron-up");
+                    el.slideUp(200);
+                } else {
+                    $(this).removeClass("iconpx-chevron-up").addClass("iconpx-chevron-down");
+                    el.slideDown(200);
+                }
+            })
+
+        });
+    </script>*@
+@*@Scripts.Render("../jsplug/echarts.min.js")*@
+
+

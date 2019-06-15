@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <p>
+            Please create a database names 'hantnew' first,<br>
+            then click the button below to create tables for it.
+        </p>
+        <form method="post">
+            <input type="submit" value="Drop tables" name="action">
+            <input type="submit" value="Create tables" name="action">
+            <input type="submit" value="Initialized Data" name="action">
+        </form>
+        <div class="box2">@ViewBag.Result</div>
+    </div>
+</body>
+</html>

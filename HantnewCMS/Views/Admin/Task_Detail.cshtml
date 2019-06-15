@@ -1,0 +1,94 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    ViewBag.Title = "Task_Detail";
+    string content = "";
+}
+
+@section Styles{
+    <link href="~/Content/Task/style.css" rel="stylesheet" />
+}
+
+<div class="detail">
+    <div>
+        @foreach (DataRow item in ViewBag.Data.Rows)
+        {
+            <div class="layui-form-item">
+                <label class="layui-form-label long">ID：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[0]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">项目名称：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[1]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">内容：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss" id="article_content">
+                        @{content = (string)item[2]; }
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">发布者：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[10]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">参与者：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[4]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">预算完成时长：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[5]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">项目交付时间：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[6]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">创建时间：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[7]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">上次修改时间：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[8]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">状态：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[9]</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/Scripts/morejs.js"></script>
+    <script type="text/javascript">
+
+        document.getElementById("article_content").innerHTML = escape2Html('@content');
+        function escape2Html(str) {
+            var arrEntities = { 'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"' };
+            return str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) { return arrEntities[t]; });
+        }
+    </script>
+}
+

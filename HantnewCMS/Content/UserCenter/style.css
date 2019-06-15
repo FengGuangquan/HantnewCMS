@@ -1,0 +1,40 @@
+﻿body {
+    background: radial-gradient(circle, #F7C9C9, #91A8D1);
+}
+
+a, a:hover {
+    text-decoration: none;
+}
+
+.headerdiv {
+    height: 2px;
+    width: 100%;
+    background: #31833E;
+}
+
+.personcenterdiv {
+    padding-top: 30px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.leftlable {
+    font-size: 15px;
+}
+
+.change {
+    color: #3b94ed;
+}
+
+.lablepassword {
+    margin-top: 20px;
+}
+
+.buttomedit {
+    width: 100%;
+    text-align: center;
+}
+
+.editinput{
+    text-align: center;
+}

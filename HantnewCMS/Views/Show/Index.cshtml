@@ -1,0 +1,133 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    Layout = "~/Views/Shared/_LayoutShow.cshtml";
+}
+
+@section Styles {
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/show/index.css" rel="stylesheet" />
+}
+
+<div class="headerdiv"></div>
+
+<div class="layui-carousel " id="test1">
+    <div carousel-item="">
+        @foreach (DataRow item1 in ViewBag.Data1.Rows)
+        {
+            <div class="img-item">
+                <img src="@item1[1]" class="carouselimg" />
+            </div>
+        }
+    </div>
+</div>
+
+<div class="carddiv">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    投票
+                    @Html.ActionLink("更多+", "Vote", "Show", new { @class = "more" })
+                </div>
+                <div class="layui-card-body index-card">
+                    <table class="cardtable">
+                        <tr>
+                            <td class="left">暂未开放</td>
+                            <td class="right"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    问卷调查
+                    @Html.ActionLink("更多+", "Investigation", "Show", new { @class = "more" })
+                </div>
+                <div class="layui-card-body index-card">
+                    <table class="cardtable">
+                        <tr>
+                            <td class="left">暂未开放</td>
+                            <td class="right"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    文章
+                    @Html.ActionLink("更多+", "Article", "Show", new { @class = "more" })
+                </div>
+                <div class="layui-card-body index-card">
+                    <table class="cardtable">
+                        @foreach (DataRow item in ViewBag.Data.Rows)
+                        {
+                        <tr>
+                            <td class="left">
+                                <a href="@Url.Action("Article_Detail",new { id = item[0]})">
+                                    @item[1]
+                                </a>
+                            </td>
+                            <td class="right">
+                                @item[4]
+                            </td>
+                            <td class="right right1">
+                                |
+                            </td>
+                        </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/layui/layui.js"></script>
+    <script>
+        layui.use(['carousel', 'form'], function () {
+            var carousel = layui.carousel
+                , form = layui.form;
+
+            //我的图片比例
+            var b = 1920 / 560;
+            //获取浏览器宽度
+            var W = $(window).width();
+            var H = $(window).height();
+
+            //图片轮播
+            carousel.render({
+                elem: '#test1'
+                , width: '100%'
+                , height: (W/b).toString() + "px"  //按比例和浏览器可视页面宽度来获取高度
+                , interval: 3000
+            });
+        });
+
+        //窗口变化是重新加载
+        $(window).resize(function () {
+            // setBanner();
+            window.location.reload()
+        })
+    </script>
+    
+    <script>
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+
+            //监听折叠
+            element.on('collapse(test)', function (data) {
+                layer.msg('展开状态：' + data.show);
+            });
+        });
+    </script>
+}
+

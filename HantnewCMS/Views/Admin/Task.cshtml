@@ -1,0 +1,149 @@
+﻿
+@model HantnewCMS.Models.TaskViewModel
+@{
+    ViewBag.Title = "项目";
+}
+
+@section Styles{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/UserTable/jquery.datatables.min.css")
+    @Styles.Render("~/Content/UserTable/buttons.dataTables.min.css")
+    <link href="~/Content/Task/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/bootstrapbuttons.css">
+    <link href="~/Content/reveal.css" rel="stylesheet" />
+}
+
+
+<div class="all">
+    <div class="addtaskdiv">
+        <a href="Task_Add" name="action" class="button button-pill button-primary addtaskbutton" id="addtaskbutton">添加项目</a>
+    </div>
+    <div class="table-container">
+        <form method="post">
+            <table id="example" class="display" role="grid" aria-describedby="example_info">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>项目名称</th>
+                        <th>发布者</th>
+                        <th>参与者</th>
+                        <th>预算完成时长(天)</th>
+                        <th>项目交付时间</th>
+                        <th>创建时间</th>
+                        <th>上次修改时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Tasks)
+                    {
+                    <tr>
+                        <td>
+                            <input type="checkbox" data-id="@item.ID">
+                        </td>
+                        <td>@Html.DisplayFor(model => item.ID)</td>
+                        <td>@Html.DisplayFor(model => item.Title)</td>
+                        <td>@Html.DisplayFor(model => item.PublisherUserName)</td>
+                        <td>@Html.DisplayFor(model => item.Developers)</td>
+                        <td>@Html.DisplayFor(model => item.BudgetTime)</td>
+                        <td>@Html.DisplayFor(model => item.TurnoverTime)</td>
+                        <td>@Html.DisplayFor(model => item.CreateTime)</td>
+                        <td>@Html.DisplayFor(model => item.LastEditTime)</td>
+                        <td>
+                            @if (@Html.DisplayFor(model => item.IsValid).ToString() == "True")
+                            {@Html.Raw("未完成")}
+                            @if (@Html.DisplayFor(model => item.IsValid).ToString() == "False")
+                            {@Html.Raw("已完成")}
+                        </td>
+                        <td>
+                            @Html.ActionLink("详细", "Task_Detail", new { id = item.ID })
+                            @Html.ActionLink("编辑", "Task_Edit", new { id = item.ID })
+                            <a href="javascript:;" onclick="if(window.confirm('确定要删除该项目并且删除对应的所有进度吗？')) window.location.href ='@Url.Action("Task_Remove", "Admin", new { id = item.ID })'">删除</a>
+                            <br />
+                            @Html.ActionLink("添加进度", "TaskSchedule_Add", new { id = item.ID })
+                            @Html.ActionLink("查看进度", "TaskSchedule", new { id = item.ID })
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="page1div">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("Task", new { page = x }))
+    </div>
+</div>
+
+
+    @section Scripts {
+        <script src="http://www.jq22.com/jquery/jquery-1.6.2.js"></script>
+        <script src="~/Scripts/jquery.reveal.js"></script>
+        @Scripts.Render("~/bundles/layuijs")
+        @Scripts.Render("~/Scripts/UserTable/jquery.min.js")
+        @Scripts.Render("~/Scripts/UserTable/jquery.datatables.min.js")
+        @Scripts.Render("~/Scripts/UserTable/dataTables.buttons.min.js")
+        @Scripts.Render("~/Scripts/UserTable/jszip.min.js")
+        @Scripts.Render("~/Scripts/UserTable/buttons.html5.min.js")
+        @Scripts.Render("~/Scripts/UserTable/buttons.flash.min.js")
+        @Scripts.Render("~/Scripts/UserTable/pdfmake.min.js")
+        @Scripts.Render("~/Scripts/UserTable/vfs_fonts.js")
+        @Scripts.Render("~/Scripts/UserTable/buttons.print.min.js")
+        <script src="~/Scripts/morejs.js"></script>
+        <script src="http://www.jq22.com/js/jq.js"></script>
+
+
+        <script>
+            $(document).ready(function () {
+
+                $('#example').DataTable({
+                    dom: 'Bfrtip',
+                    language: {
+                        emptyTable: '没有数据',
+                        loadingRecords: '加载中...',
+                        processing: '查询中...',
+                        search: '检索:',
+                        lengthMenu: '',
+                        zeroRecords: '没有数据',
+                        paginate: {
+                            'first': '',
+                            'last': '',
+                            'next': '',
+                            'previous': ''
+                        },
+                        info: '',
+                        infoEmpty: '',
+                        infoFiltered: '',
+                    },
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Data export'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Data export'
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Data export'
+                        },
+                        {
+                            extend: 'print',
+                        }
+                    ]
+                });
+
+                $(".buttons-copy").text('复制');
+                $(".buttons-excel").text('导出到excel');
+                $(".buttons-pdf").text('导出到pdf');
+                $(".buttons-csv").text('导出到csv');
+                $(".buttons-print").text('打印');
+
+            });
+        </script>
+    }

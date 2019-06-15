@@ -1,0 +1,98 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutShow.cshtml";
+}
+
+@section Styles {
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/show/investigation.css" rel="stylesheet" />
+}
+
+
+<div class="headerdiv"></div>
+
+<div class="carddiv">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card investigationdiv">
+                <div class="layui-card-header">
+                    调查问卷
+                    @*<button type="button" class="layui-btn layui-btn-sm fbwjdc">发布调查问卷</button>
+                    <button type="button" class="layui-btn layui-btn-sm mywjdc" id="mywjdc" onclick="mywjdc()">我的调查问卷</button>*@
+                </div>
+                <div class="layui-card-body index-card">
+                    <div id="wjdctable1" style="display:block">
+                        @*<table class="wjdctable">
+                            <tr>
+                                <th class="topth1">调查问卷标题</th>
+                                <th class="topth2">发布人</th>
+                                <th class="topth2">发布时间</th>
+                                <th class="topth2">结束时间</th>
+                                <th class="topth2"></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="~/imgs/wzimg.png" />
+                                    调查问卷1
+                                </td>
+                                <td>
+                                    啊啊啊
+                                </td>
+                                <td>
+                                    2019-01-01
+                                </td>
+                                <td>
+                                    2019-01-01
+                                </td>
+                                <td>
+                                    <a href="#">我要参与</a>
+                                </td>
+                            </tr>
+                        </table>*@
+                        <div>暂时未开放这功能</div>
+                    </div>
+                    <div id="wjdctable2" style="display:none">
+                        @*<table class="wjdctable">
+                            <tr>
+                                <th class="topth3">调查问卷标题</th>
+                                <th class="topth4">提交时间</th>
+                                <th class="topth4"></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="~/imgs/wzimg.png" />
+                                    我的调查问卷1
+                                </td>
+                                <td>
+                                    2019-01-02
+                                </td>
+                                <td>
+                                    <a href="#">查看</a>
+                                </td>
+                            </tr>
+                        </table>*@
+                        <div>暂时未开放这功能</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/layui/layui.js"></script>
+    <script>
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+
+            //监听折叠
+            element.on('collapse(test)', function (data) {
+                layer.msg('展开状态：' + data.show);
+            });
+        });
+    </script>
+    <script src="~/Scripts/show/investigation.js"></script>
+}
+

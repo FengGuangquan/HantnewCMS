@@ -1,0 +1,165 @@
+﻿@using System.Data
+@model HantnewCMS.Models.MModuleViewModel
+@{
+    ViewBag.Title = "模块列表";
+}
+
+@section Styles{
+    @Styles.Render("~/Content/UserTable/jquery.datatables.min.css")
+    @Styles.Render("~/Content/UserTable/buttons.dataTables.min.css")
+    @Styles.Render("~/Content/PermissionSet/style.css")
+    <link rel="stylesheet" href="~/Content/bootstrapbuttons.css">
+}
+
+
+<div class="all">
+    <div class="addpermissiondiv">
+        @Html.ActionLink("添加模块", "", "", new { @class = "button button-pill button-primary addpermissionbutton", @id = "addpermissionbutton" })
+    </div>
+    <form method="post" class="layui-form">
+        <table id="example" class="display" role="grid" aria-describedby="example_info">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>模块名称</th>
+                    <th>编辑模块</th>
+                    <th>是否显示</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var items in Model.MModules)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(model => items.ID)</td>
+                        <td>@Html.DisplayFor(model => items.ModuleName)</td>
+                        <td>@Html.ActionLink("编辑模块", "MModule_Edit", new { id = items.ID })</td>
+                        <td>
+                            <input type="checkbox" @if (items.IsValid == "True") { @Html.Raw("checked= 'checked'") } value="@items.ID" name="open" lay-skin="switch" lay-filter="switchTest">
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="page1div">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Module", new { page = x }))
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    <script src="~/layui/layui.js"></script>
+    @Scripts.Render("~/Scripts/UserTable/jquery.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jquery.datatables.min.js")
+    @Scripts.Render("~/Scripts/UserTable/dataTables.buttons.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jszip.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.html5.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.flash.min.js")
+    @Scripts.Render("~/Scripts/UserTable/pdfmake.min.js")
+    @Scripts.Render("~/Scripts/UserTable/vfs_fonts.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.print.min.js")
+    <script src="~/Scripts/jquery.nice-select.min.js"></script>
+    <script src="~/Scripts/fastclick.js"></script>
+    <script src="~/Scripts/morejs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select:not(.ignore)').niceSelect();
+            FastClick.attach(document.body);
+        });
+    </script>
+
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+
+            //创建一个编辑器
+            var editIndex = layedit.build('LAY_demo_editor');
+
+            //监听指定开关
+            form.on('switch(switchTest)', function (data) {
+                var that = this;
+                $.ajax({
+                    url: '@Url.Action("SetMModule", "Admin")',
+                    data: {
+                        id: $(this).val(),
+                        isvalid: this.checked ? 'True' : 'False'
+                    },
+                    dataType: 'text',
+                    type: 'GET',
+                    success: function (ret) {
+                        if (ret == "1")
+                            ;
+                            //alert("successful");
+                        else {
+                            //alert("failed");
+                            $(that).prop("checked", !that.checked)
+                            $(that).attr("checked", !that.checked)
+                        }
+                    }
+                })
+                layer.msg('您选择了：' + (this.checked ? 'True' : 'False'), {
+                    offset: '10px'
+                });
+                layer.tips('已修改权限开关', data.othis)
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                language: {
+                    emptyTable: '没有数据',
+                    loadingRecords: '加载中...',
+                    processing: '查询中...',
+                    search: '检索:',
+                    lengthMenu: '',
+                    zeroRecords: '没有数据',
+                    paginate: {
+                        'first': '',
+                        'last': '',
+                        'next': '',
+                        'previous': ''
+                    },
+                    info: '',
+                    infoEmpty: '',
+                    infoFiltered: '',
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'print',
+                    }
+                ]
+            });
+
+            $(".buttons-copy").text('复制');
+            $(".buttons-excel").text('导出到excel');
+            $(".buttons-pdf").text('导出到pdf');
+            $(".buttons-csv").text('导出到csv');
+            $(".buttons-print").text('打印');
+
+        });
+    </script>
+}

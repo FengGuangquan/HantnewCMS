@@ -1,0 +1,80 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    Layout = "~/Views/Shared/_LayoutShow.cshtml";
+}
+
+@section Styles {
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/show/article.css" rel="stylesheet" />
+}
+
+
+<div class="headerdiv"></div>
+
+<div class="carddiv">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card articlediv">
+                <form method="post">
+                    <div class="layui-card-header">
+                        文章
+                    </div>
+                    <div class="layui-card-body index-card">
+                        <div id="wztable1" style="display:block;">
+                            <table class="wztable">
+                                <tr>
+                                    <th class="topth1">文章标题</th>
+                                    <th class="topth2">作者</th>
+                                    <th class="topth3">分类</th>
+                                    <th class="topth4">发布时间</th>
+                                </tr>
+                                @foreach (DataRow item in ViewBag.Data.Rows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action("Article_Detail", new { id = @item[0] })">
+                                                <img src="~/imgs/wzimg.png" class="wzimg" />
+                                                <div class="articletitleimg">
+                                                    <img src="@item[9]" class="articleimg" width="110" height="75" />
+                                                </div>
+                                                <div class="articletitle">
+                                                    @item[1]
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>@item[3]</td>
+                                        <td>@item[4]</td>
+                                        <td>@item[6]</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/layui/layui.js"></script>
+    <script>
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+
+            //监听折叠
+            element.on('collapse(test)', function (data) {
+                layer.msg('展开状态：' + data.show);
+            });
+        });
+    </script>
+    <script src="~/Scripts/show/article.js"></script>
+}
+
+

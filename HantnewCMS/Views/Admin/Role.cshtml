@@ -1,0 +1,123 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    ViewBag.Title = "用户角色";
+}
+
+@section Styles{
+    @Styles.Render("~/Content/UserTable/jquery.datatables.min.css")
+    @Styles.Render("~/Content/UserTable/buttons.dataTables.min.css")
+    @Styles.Render("~/Content/UserRole/style.css")
+    <link rel="stylesheet" href="~/Content/bootstrapbuttons.css">
+}
+
+<div class="all">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="addrolediv">
+            @*<a href="#" class="button button-pill button-primary addarticlebutton" id="addrolebutton">添加角色</a>*@
+            <span class="span_blue"><strong>添加角色</strong>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="span_blue">角色名：</span>
+            <input type="text" name="name" />
+            <span class="span_blue">角色描述：</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" name="desription" />
+            <input type="submit" name="action_name" value="添加" />
+            <div class="result">@ViewBag.Result</div>
+        </div>
+    }
+
+        <table id="example" class="display" role="grid" aria-describedby="example_info">
+            <thead>
+                <tr>
+                    <th>角色ID</th>
+                    <th>角色名称</th>
+                    <th>角色描述</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow item in ViewBag.Data.Rows)
+                {
+                    <tr>
+                        <td>@item[0]</td>
+                        <td>@item[1]</td>
+                        <td>@item[2]</td>
+                        <td>
+                            @Html.ActionLink("角色授权", "PermissionSet", new { id = @item[0] })
+                            <a href="javascript:;" onclick="if(window.confirm('确定要删除吗？')) window.location.href ='@Url.Action("Role_Remove", "Admin", new { id = @item[0] })'">删除</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/UserTable/jquery.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jquery.datatables.min.js")
+    @Scripts.Render("~/Scripts/UserTable/dataTables.buttons.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jszip.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.html5.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.flash.min.js")
+    @Scripts.Render("~/Scripts/UserTable/pdfmake.min.js")
+    @Scripts.Render("~/Scripts/UserTable/vfs_fonts.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.print.min.js")
+
+    <script src="~/Scripts/morejs.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                language: {
+                    emptyTable: '没有数据',
+                    loadingRecords: '加载中...',
+                    processing: '查询中...',
+                    search: '检索:',
+                    lengthMenu: '每页 _MENU_ 件',
+                    zeroRecords: '没有数据',
+                    paginate: {
+                        'first': '第一页',
+                        'last': '最后一页',
+                        'next': '下一页',
+                        'previous': '上一页'
+                    },
+                    info: '第 _PAGE_ 页 / 总 _PAGES_ 页',
+                    infoEmpty: '没有数据',
+                    infoFiltered: '(过滤总件数 _MAX_ 条)',
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'print',
+                    }
+                ]
+            });
+
+            $(".buttons-copy").text('复制');
+            $(".buttons-excel").text('导出到excel');
+            $(".buttons-pdf").text('导出到pdf');
+            $(".buttons-csv").text('导出到csv');
+            $(".buttons-print").text('打印');
+
+        });
+    </script>
+}

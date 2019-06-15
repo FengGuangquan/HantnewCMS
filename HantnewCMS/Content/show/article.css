@@ -1,0 +1,120 @@
+﻿body {
+    /*margin: 0px;*/
+    /*padding: 0px;*/
+    /*background-image: url('../../imgs/show_background.jpg');*/
+    /*background-position: center center;*/
+    /*background-size: cover;*/
+    /*background-size: 100% 100%;*/
+    /*background-repeat: no-repeat;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    background: radial-gradient(circle, #F7C9C9, #91A8D1);
+}
+
+.headerdiv {
+    height: 2px;
+    width: 100%;
+    background: #31833E;
+}
+
+.carddiv {
+    padding-top: 30px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 80px;
+}
+
+.index-card {
+    height: 600px;
+    overflow-y: scroll;
+}
+
+.articlediv {
+    border: 1px solid #dadbdd;
+}
+
+.fbwz {
+    float: right;
+    margin-top: 6px;
+}
+
+.mywz {
+    float: right;
+    margin-top: 6px;
+    margin-right: 10px
+}
+
+.back {
+    margin-left: 10px;
+}
+
+.wztable {
+    width: 100%;
+}
+
+table tr {
+    border-bottom: 1px solid #dadbdd;
+}
+
+table tr th {
+    height: 30px;
+    line-height: 30px;
+}
+
+table tr td {
+    height: 40px;
+    line-height: 40px;
+}
+
+table tr td a {
+    text-decoration: none;
+}
+
+table tr td a:hover {
+    text-decoration: none;
+    color: #238E23;
+}
+
+table tr:hover {
+    background: #F8F8FF;
+}
+
+.topth1 {
+    width: 50%;
+    text-align: left;
+}
+
+.topth2, .topth3 {
+    width: 10%;
+    text-align: left;
+}
+
+.topth4 {
+    width: 20%;
+    text-align: left;
+}
+
+.wzimg {
+    float: left;
+    margin: 40px 5px auto 0px;
+    display: inline-block;
+}
+
+.articleimg {
+    width: 110px;
+    height: 75px;
+}
+
+.articletitleimg {
+    position: relative;
+    float: left;
+    width: 110px;
+    height: 75px;
+    margin: 10px 10px;
+    display: inline-block;
+}
+
+.articletitle {
+    font-size: 16px;
+    display: inline-block;
+}

@@ -1,0 +1,47 @@
+﻿body {
+    background: #e9e9e9;
+}
+
+a {
+    text-decoration: none;
+}
+
+.all {
+    background: #ffffff;
+    width: 80%;
+    left: 0;
+    right: 0;
+    margin: 50px auto;
+    padding: 40px;
+}
+
+.single-div {
+    width: 100%;
+    height: 140px;
+    line-height: 140px;
+    border: 1px solid #ffd800;
+    margin-bottom: 30px;
+    padding-left: 40px;
+}
+
+.carouselimg-leftdiv {
+    display: inline-block;
+}
+
+.carouselimg-rightdiv {
+    margin-right: 100px;
+    float: right;
+    display: inline-block;
+}
+
+.addcarouselinput {
+    margin-bottom: 30px;
+}
+
+.span1 {
+
+}
+
+.input1, .input2 {
+    display: inline-block;
+}

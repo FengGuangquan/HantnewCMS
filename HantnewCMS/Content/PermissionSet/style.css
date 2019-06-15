@@ -1,0 +1,43 @@
+﻿tbody td, thead th {
+    text-align: center;
+}
+
+.all {
+    position: absolute;
+    width: 90%;
+    left: 0;
+    right: 0;
+    margin: 20px auto;
+}
+
+.all .addpermissiondiv {
+    padding-bottom: 10px;
+}
+
+.tianjia {
+    position: absolute;
+    width: 80%;
+    left: 0;
+    right: 0;
+    margin: 30px auto;
+    padding: 10px;
+    border: 1px solid #808080;
+}
+
+.add {
+    float: right;
+}
+
+.select {
+    margin-top: -44px;
+}
+
+.long {
+    width: 110px;
+}
+
+.page1div {
+    width: 100%;
+    display: inline-block;
+    padding-bottom: 50px;
+}

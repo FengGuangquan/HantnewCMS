@@ -1,0 +1,163 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    Layout = "~/Views/Shared/_LayoutShow.cshtml";
+    string username = @Request.Cookies["UserName"].Value;
+}
+
+@section Styles {
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @Styles.Render("~/bundles/layuicss")
+    <link href="~/Content/show/personcenter.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/bootstrapbuttons.css">
+}
+
+
+<div class="headerdiv"></div>
+
+<div class="personcenterdiv">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend style="margin-left:0px;">个人中心</legend>
+        <div class="layui-field-box">
+            <form class="layui-form" method="post">
+                @foreach (DataRow item in ViewBag.Data.Rows)
+                {
+                    <div class="layui-form-item">
+                        <label class="layui-form-label leftlable">用户名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="username" autocomplete="off" class="layui-input" disabled="disabled" value="@Request.Cookies["UserName"].Value">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label leftlable">密码</label>
+                        <div class="layui-input-block">
+                            <input type="password" name="password" autocomplete="off" class="layui-input" value="@item[3]">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label leftlable">真实姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="realname" autocomplete="off" class="layui-input" value="@item[2]">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label leftlable">邮箱</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" autocomplete="off" class="layui-input" value="@item[7]">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label leftlable">手机号码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phone" autocomplete="off" class="layui-input" value="@item[6]">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label leftlable">生日</label>
+                        <div class="layui-input-block">
+                                <input type="text" name="birthday" class="layui-input" id="choosedate" value="@item[8]">
+                        </div>
+                    </div>
+                    <div class="layui-form-item buttomedit">
+                        <input type="submit" name="action_name" value="修改" class="button button-pill button-primary editinput" />
+                    </div>
+                }
+            </form>
+        </div>
+        <div class="other">
+            <span><strong>个人功能</strong></span>
+            <div class="persontools_div">
+                <a href="@Url.Action("Article_Add","Show")">
+                    <div class="persontools">
+                        <div class="persontools_img">
+                            <img src="~/imgs/personcenter_publisharticle.png" />
+                        </div>
+                        <div class="persontools_span">
+                            <span>发布文章</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="@Url.Action("Article_My","Show")">
+                    <div class="persontools">
+                        <div class="persontools_img">
+                            <img src="~/imgs/personcenter_publisharticle.png" />
+                        </div>
+                        <div class="persontools_span">
+                            <span>我的文章</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="persontools">
+                    <div class="persontools_img">
+                        <img src="~/imgs/personcenter_publisharticle.png" />
+                    </div>
+                    <div class="persontools_span">
+                        <span>发布投票</span>
+                    </div>
+                </div>
+                <div class="persontools">
+                    <div class="persontools_img">
+                        <img src="~/imgs/personcenter_publisharticle.png" />
+                    </div>
+                    <div class="persontools_span">
+                        <span>发布问卷调查</span>
+                    </div>
+                </div>
+                <div class="persontools">
+                    
+                </div>
+                <div class="persontools">
+                    
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/layuijs")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+            //创建一个编辑器
+            var editIndex = layedit.build('LAY_demo_editor');
+        });
+    </script>
+    <script>
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+
+            //监听折叠
+            element.on('collapse(test)', function (data) {
+                layer.msg('展开状态：' + data.show);
+            });
+        });
+    </script>
+    <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //常规用法
+            laydate.render({
+                elem: '#choosedate'
+            });
+        });
+    </script>
+}

@@ -1,0 +1,209 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@using HantnewCMS.Models
+@{
+    ViewBag.Title = "TaskSchedule_Edit";
+    string content = "";
+}
+
+@section Styles{
+    <link href="~/Content/pintsize.min.css" rel="stylesheet" />
+    <link href="~/Content/nice-select.css" rel="stylesheet" />
+    <link href="~/Content/TaskSchedule/style.css" rel="stylesheet" />
+    <link href="~/Scripts/ueditor/umeditor1_2_2-utf8-net/themes/default/css/umeditor.css" rel="stylesheet" />
+}
+
+<div class="edit">
+    <div>
+        <form method="post">
+            @foreach (DataRow item in ViewBag.Data.Rows)
+            {
+                <div class="layui-form-item">
+                    <label class="layui-form-label long">ID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="" value="@item[0]" disabled="disabled" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label long">项目标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="" value="@item[7]" disabled="disabled" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label long">进度内容</label>
+                    <div class="layui-input-block">
+                        <div style="width:100%">
+                            <script type="text/plain" name="content" id="myEditor" style="width:100%;height:240px;">
+                                @{content = (string)item[1]; }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label long">状态</label>
+                    <div class="layui-input-block">
+                        <select class="wide select" name="IsValid">
+                            <option value="True" @if ((bool)item[6] == true) { @Html.Raw("selected='selected'") }>正常</option>
+
+                            <option value="False" @if ((bool)item[6] == false) { @Html.Raw("selected='selected'") }>停用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="submit" name="action_name" value="修改" class="layui-btn layui-btn-normal change" />
+                    </div>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Scripts/jquery.nice-select.min.js"></script>
+    <script src="~/Scripts/fastclick.js"></script>
+    <script src="~/Scripts/morejs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select:not(.ignore)').niceSelect();
+            FastClick.attach(document.body);
+        });
+    </script>
+
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+
+        });
+    </script>
+
+    <script src="~/Scripts/ueditor/umeditor1_2_2-utf8-net/umeditor.min.js"></script>
+    <script src="~/Scripts/ueditor/umeditor1_2_2-utf8-net/umeditor.config.js"></script>
+    <script src="~/Scripts/ueditor/umeditor1_2_2-utf8-net/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript">
+        function escape2Html(str) {
+            var arrEntities = { 'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"' };
+            return str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) { return arrEntities[t]; });
+        }
+
+        //实例化编辑器
+        var um = UM.getEditor('myEditor');
+        um.setContent(escape2Html('@content'));
+        um.addListener('blur', function () {
+            $('#focush2').html('编辑器失去焦点了')
+        });
+        um.addListener('focus', function () {
+            $('#focush2').html('')
+        });
+        //按钮的操作
+        function insertHtml() {
+            var value = prompt('插入html代码', '');
+            um.execCommand('insertHtml', value)
+        }
+        function isFocus() {
+            alert(um.isFocus())
+        }
+        function doBlur() {
+            um.blur()
+        }
+        function createEditor() {
+            enableBtn();
+            um = UM.getEditor('myEditor');
+        }
+        function getAllHtml() {
+            alert(UM.getEditor('myEditor').getAllHtml())
+        }
+        function getContent() {
+            var arr = [];
+            arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+            arr.push("内容为：");
+            arr.push(UM.getEditor('myEditor').getContent());
+            alert(arr.join("\n"));
+        }
+        function getPlainTxt() {
+            var arr = [];
+            arr.push("使用editor.getPlainTxt()方法可以获得编辑器的带格式的纯文本内容");
+            arr.push("内容为：");
+            arr.push(UM.getEditor('myEditor').getPlainTxt());
+            alert(arr.join('\n'))
+        }
+        function setContent(isAppendTo) {
+            var arr = [];
+            arr.push("使用editor.setContent('欢迎使用umeditor')方法可以设置编辑器的内容");
+            UM.getEditor('myEditor').setContent('欢迎使用umeditor', isAppendTo);
+            alert(arr.join("\n"));
+        }
+        function setDisabled() {
+            UM.getEditor('myEditor').setDisabled('fullscreen');
+            disableBtn("enable");
+        }
+
+        function setEnabled() {
+            UM.getEditor('myEditor').setEnabled();
+            enableBtn();
+        }
+
+        function getText() {
+            //当你点击按钮时编辑区域已经失去了焦点，如果直接用getText将不会得到内容，所以要在选回来，然后取得内容
+            var range = UM.getEditor('myEditor').selection.getRange();
+            range.select();
+            var txt = UM.getEditor('myEditor').selection.getText();
+            alert(txt)
+        }
+
+        function getContentTxt() {
+            var arr = [];
+            arr.push("使用editor.getContentTxt()方法可以获得编辑器的纯文本内容");
+            arr.push("编辑器的纯文本内容为：");
+            arr.push(UM.getEditor('myEditor').getContentTxt());
+            alert(arr.join("\n"));
+        }
+        function hasContent() {
+            var arr = [];
+            arr.push("使用editor.hasContents()方法判断编辑器里是否有内容");
+            arr.push("判断结果为：");
+            arr.push(UM.getEditor('myEditor').hasContents());
+            alert(arr.join("\n"));
+        }
+        function setFocus() {
+            UM.getEditor('myEditor').focus();
+        }
+        function deleteEditor() {
+            disableBtn();
+            UM.getEditor('myEditor').destroy();
+        }
+        function disableBtn(str) {
+            var div = document.getElementById('btns');
+            var btns = domUtils.getElementsByTagName(div, "button");
+            for (var i = 0, btn; btn = btns[i++];) {
+                if (btn.id == str) {
+                    domUtils.removeAttributes(btn, ["disabled"]);
+                } else {
+                    btn.setAttribute("disabled", "true");
+                }
+            }
+        }
+        function enableBtn() {
+            var div = document.getElementById('btns');
+            var btns = domUtils.getElementsByTagName(div, "button");
+            for (var i = 0, btn; btn = btns[i++];) {
+                domUtils.removeAttributes(btn, ["disabled"]);
+            }
+        }
+    </script>
+}

@@ -1,0 +1,62 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    ViewBag.Title = "Class_Edit";
+}
+
+@section Styles{
+    <link href="~/Content/pintsize.min.css" rel="stylesheet" />
+    <link href="~/Content/nice-select.css" rel="stylesheet" />
+    <link href="~/Content/Class/style.css" rel="stylesheet" />
+}
+
+<div class="bianji">
+    <div>
+        <form method="post">
+            @foreach (DataRow item in ViewBag.Data.Rows)
+            {
+                <div class="layui-form-item">
+                    <label class="layui-form-label">ID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ID" value="@item[0]" disabled="disabled" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ClassName" value="@item[1]" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <select class="wide select" name="IsValid">
+                            <option value="True" @if ((bool)item[4] == true) { @Html.Raw("selected='selected'")}>正常</option>
+                            <option value="False" @if ((bool)item[4] == false) { @Html.Raw("selected='selected'")}>停用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="submit" name="action" value="修改" class="layui-btn layui-btn-normal ifange change"/>
+                    </div>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Scripts/jquery.nice-select.min.js"></script>
+    <script src="~/Scripts/fastclick.js"></script>
+    <script src="~/Scripts/morejs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select:not(.ignore)').niceSelect();
+            FastClick.attach(document.body);
+        });
+    </script>
+
+}

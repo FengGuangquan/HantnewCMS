@@ -1,0 +1,51 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    ViewBag.Title = "TaskSchedule_Detail";
+    string content = "";
+}
+
+@section Styles{
+    <link href="~/Content/TaskSchedule/style.css" rel="stylesheet" />
+}
+
+<div class="detail">
+    <div>
+        @foreach (DataRow item in ViewBag.Data.Rows)
+        {
+            <div class="layui-form-item">
+                <label class="layui-form-label long">ID：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[0]</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">进度内容：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss" id="article_content">
+                        @{content = (string)item[1]; }
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label long">发布者：</label>
+                <div class="layui-input-block">
+                    <div class="detailcss">@item[7]</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/Scripts/morejs.js"></script>
+    <script type="text/javascript">
+        document.getElementById("article_content").innerHTML=escape2Html('@content');
+        function escape2Html(str) {
+            var arrEntities = { 'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"' };
+            return str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) { return arrEntities[t]; });
+        }
+    </script>
+}
+

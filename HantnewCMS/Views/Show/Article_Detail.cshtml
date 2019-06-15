@@ -1,0 +1,85 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@{
+    Layout = "~/Views/Shared/_LayoutShow.cshtml";
+    ViewBag.Title = "Article_Detail";
+    string content = "";
+}
+
+@section Styles{
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/show/article_detail.css" rel="stylesheet" />
+}
+
+
+<div class="detail">
+    @foreach (DataRow item in ViewBag.Data.Rows)
+    {
+        <div class="left_div">
+            <div class="title_div">
+                <span class="title_span"><strong>@item[1]</strong></span>
+            </div>
+            <div class="back_div">
+                <a href="@Url.Action("Article")">
+                    <img src="~/imgs/back.png" class="backimg" />
+                    <span style="color:#0094ff">返回</span>
+                </a>
+            </div>
+            <div class="class_createtime_div">
+                <span class="createtime_span">发布时间：@item[6]</span>
+                <span class="class_span">分类：@item[4]</span>
+            </div>
+            <div class="content_div" id="content_div">
+                @{content = (string)item[2];}
+            </div>
+            <div class="attachment_div">
+                <span>附件</span>
+                <div class="attachment">
+                    <a href="@item[5]" download="附件">
+                        点击下载附件
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="right_div">
+            <div class="message rights">
+                <div class="publishermessage">
+                    <span class="publisher">@item[3]</span><br />
+                    <span class="newarticletime">最近更新：@ViewData["maxCreateTime"]</span>
+                </div>
+            </div>
+            <div class="newarticle">
+                <span class="newarticle"><strong>作者最新文章</strong></span>
+                @foreach (DataRow item3 in ViewBag.Data3.Rows)
+                {
+                    <div class="newarticle_div">
+                        <a href="@Url.Action("Article_Detail",new { id = item3[0]})">
+                            <img src="@item3[8]" class="articleimg" />
+                            <span class="newarticle_title">@item3[1]</span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+<div class="gototop_div">
+    <a href="javascript:scrollTo(0,0);">
+        <img src="~/imgs/gototop.png" class="gototop" />
+    </a>
+</div>
+
+
+@section Scripts {
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/morejs.js"></script>
+    <script type="text/javascript">
+        document.getElementById("content_div").innerHTML=escape2Html('@content');
+
+        function escape2Html(str) {
+            var arrEntities = { 'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"' };
+            return str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) { return arrEntities[t]; });
+        }
+    </script>
+}

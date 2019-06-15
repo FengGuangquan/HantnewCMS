@@ -1,0 +1,123 @@
+﻿@model HantnewCMS.Models.ArticleViewModel
+@{
+    ViewBag.Title = "文章";
+}
+
+@section Styles{
+    @Styles.Render("~/Content/UserTable/jquery.datatables.min.css")
+    @Styles.Render("~/Content/UserTable/buttons.dataTables.min.css")
+    @Styles.Render("~/Content/Article/style.css")
+    <link rel="stylesheet" href="~/Content/bootstrapbuttons.css">
+}
+
+
+<div class="all">
+    <div class="addarticlediv">
+        <a href="Article_Add" class="button button-pill button-primary addarticlebutton" id="addarticlebutton">添加文章</a>
+    </div>
+
+    <table id="example" class="display" role="grid" aria-describedby="example_info">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>标题</th>
+                <th>发布者</th>
+                <th>分类</th>
+                <th>创建时间</th>
+                <th>上次修改时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Articles)
+            {
+            <tr>
+                <td><input type="checkbox" data-id="@item.ID"></td>
+                <td>@Html.DisplayFor(model => item.ID)</td>
+                <td>@Html.DisplayFor(model => item.Title)</td>
+                <td>@Html.DisplayFor(model => item.UserName)</td>
+                <td>@Html.DisplayFor(model => item.ClassName)</td>
+                <td>@Html.DisplayFor(model => item.CreateTime)</td>
+                <td>@Html.DisplayFor(model => item.LastEditTime)</td>
+                <td>
+                    @Html.ActionLink("查看", "Article_Detail", new { id = item.ID })
+                    @Html.ActionLink("编辑", "Article_Edit", new { id = item.ID })
+                    <a href = "javascript:;" onclick = "if(window.confirm('确定要删除吗？')) window.location.href ='@Url.Action("Article_Remove", "Admin", new { id = item.ID })'" > 删除 </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div class="page1div">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("Article", new { page = x }))
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/UserTable/jquery.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jquery.datatables.min.js")
+    @Scripts.Render("~/Scripts/UserTable/dataTables.buttons.min.js")
+    @Scripts.Render("~/Scripts/UserTable/jszip.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.html5.min.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.flash.min.js")
+    @Scripts.Render("~/Scripts/UserTable/pdfmake.min.js")
+    @Scripts.Render("~/Scripts/UserTable/vfs_fonts.js")
+    @Scripts.Render("~/Scripts/UserTable/buttons.print.min.js")
+
+    <script src="~/Scripts/morejs.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                language: {
+                    emptyTable: '没有数据',
+                    loadingRecords: '加载中...',
+                    processing: '查询中...',
+                    search: '检索:',
+                    lengthMenu: '',
+                    zeroRecords: '没有数据',
+                    paginate: {
+                        'first': '',
+                        'last': '',
+                        'next': '',
+                        'previous': ''
+                    },
+                    info: '',
+                    infoEmpty: '',
+                    infoFiltered: '',
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: 'Data export'
+                    },
+                    {
+                        extend: 'print',
+                    }
+                ]
+            });
+
+            $(".buttons-copy").text('复制');
+            $(".buttons-excel").text('导出到excel');
+            $(".buttons-pdf").text('导出到pdf');
+            $(".buttons-csv").text('导出到csv');
+            $(".buttons-print").text('打印');
+
+        });
+    </script>
+}

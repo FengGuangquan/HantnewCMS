@@ -1,0 +1,126 @@
+﻿@model HantnewCMS.Models.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>注册</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    @*@Styles.Render("../common/layui/css/layui.css")*@
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    @Styles.Render("../css/login.css")
+</head>
+<body>
+    <div class="layui-canvs"></div>
+    <div class="layui-layout layui-layout-login">
+        <a href="Login"><img src="../../imgs/backtologin.png" alt="" class="backimg" /></a>
+        <h1>
+            <strong>注册</strong>
+        </h1>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <fieldset>
+                <table class="register_table">
+                    <tr class="register_table_tr">
+                        <td class="register_table_td1">
+                            <lable class="register_table_lable">用户名&nbsp;&nbsp;&nbsp;&nbsp;</lable>
+                        </td>
+                        <td class="register_table_td2">
+                            <input type="text" class="register_table_input" name="username" />
+                        </td>
+                    </tr>
+                    <tr class="register_table_tr">
+                        <td class="register_table_td1">
+                            <lable class="register_table_lable">密码&nbsp;&nbsp;&nbsp;&nbsp;</lable>
+                        </td>
+                        <td class="register_table_td2">
+                            <input type="text" class="register_table_input" name="password" />
+                        </td>
+                    </tr>
+                    <tr class="register_table_tr">
+                        <td class="register_table_td1">
+                            <lable class="register_table_lable">真实姓名&nbsp;&nbsp;&nbsp;&nbsp;</lable>
+                        </td>
+                        <td class="register_table_td2">
+                            <input type="text" class="register_table_input" name="realname" />
+                        </td>
+                    </tr>
+                    <tr class="register_table_tr">
+                        <td class="register_table_td1">
+                            <lable class="register_table_lable">手机号&nbsp;&nbsp;&nbsp;&nbsp;</lable>
+                        </td>
+                        <td class="register_table_td2">
+                            <input type="text" class="register_table_input" name="phone" />
+                        </td>
+                    </tr>
+                    <tr class="register_table_tr">
+                        <td class="register_table_td1">
+                            <lable class="register_table_lable">邮箱&nbsp;&nbsp;&nbsp;&nbsp;</lable>
+                        </td>
+                        <td class="register_table_td2">
+                            <input type="text" class="register_table_input" name="email" />
+                        </td>
+                    </tr>
+                    <tr class="register_table_tr">
+                        <td class="register_table_td1">
+                            <lable class="register_table_lable">生日&nbsp;&nbsp;&nbsp;&nbsp;</lable>
+                        </td>
+                        <td class="register_table_td2">
+                            @*<input type="text" class="register_table_input" name="birthday" />*@
+                            <input type="text" name="birthday" id="date" lay-verify="date" autocomplete="off" class="register_table_input">
+                        </td>
+                    </tr>
+                </table>
+                <div class="layui-submit larry-login">
+                    <input type="submit" value="注册" class="submit_btn" name="action" />
+                </div>
+                <div class="result">@ViewBag.Result</div>
+            </fieldset>
+        }
+
+        <div class="layui-login-text">
+            <p>&copy; 2019 Hantnew 版权所有</p>
+        </div>
+    </div>
+
+    <script src="~/layui/layui.all.js"></script>
+    @*<script src="~/layui/layui.js"></script>*@
+    @Scripts.Render("../js/login.js")
+    @Scripts.Render("../jsplug/jparticle.jquery.js")
+    @Scripts.Render("../js/loginjs.js")
+
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+
+        });
+    </script>
+
+</body>
+</html>
